@@ -8,7 +8,7 @@ public class LocationRequestDto {
     private double longitude;
     private Instant timeStamp;
 
-    private String sessionId;
+    private Long sessionId;
 
     public double getLatitude() {
         return latitude;
@@ -34,11 +34,11 @@ public class LocationRequestDto {
         this.timeStamp = timeStamp;
     }
 
-    public String getSessionId() {
+    public Long getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(String sessionId) {
+    public void setSessionId(Long sessionId) {
         this.sessionId = sessionId;
     }
 }
