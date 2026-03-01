@@ -27,5 +27,9 @@ public class RunningServiceImpl implements RunningService {
             location.setSession(session);
 
             locationRepository.save(location);
+
+            System.out.println("Location saved: "
+                    + dto.getLatitude() + ", "
+                    + dto.getLongitude());
         }
 }
