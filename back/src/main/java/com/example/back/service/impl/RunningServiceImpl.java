@@ -33,4 +33,22 @@ public class RunningServiceImpl implements RunningService {
 
         return session;
     }
+
+    public void saveLocation(LocationRequestDto dto) {
+
+        RunSession session = sessionRepository.findById(dto.getSessionId())
+                .orElseThrow(() -> new RuntimeException("Session not found"));
+
+        RunLocation location = new RunLocation();
+        location.setLatitude(dto.getLatitude());
+        location.setLongitude(dto.getLongitude());
+        location.setTimeStamp(dto.getTimeStamp());
+        location.setSession(session);
+
+        locationRepository.save(location);
+
+        System.out.println("Location saved: "
+                + dto.getLatitude() + ", "
+                + dto.getLongitude());
+    }
 }
