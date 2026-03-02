@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-function Timer({ sessionId, setSessionId }) {
+function Timer({ sessionId, setSessionId, isRunning, setIsRunning }) {
   const [seconds, setSeconds] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
 
-  // 1️⃣ 타이머 (1초마다 증가)
+  // 타이머 증가
   useEffect(() => {
     if (!isRunning) return;
 
@@ -15,7 +14,6 @@ function Timer({ sessionId, setSessionId }) {
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  // 2️⃣ 세션 시작
   const startSession = async () => {
     try {
       const position = await new Promise((resolve, reject) => {
@@ -32,17 +30,27 @@ function Timer({ sessionId, setSessionId }) {
         }),
       });
 
+      if (!res.ok) throw new Error("Session creation failed");
+
       const data = await res.json();
+
       setSessionId(data.id);
       setIsRunning(true);
+      setSeconds(0);
+
     } catch (err) {
-      console.error("Failed to start session:", err);
-      alert("세션 생성 실패 또는 서버 오류");
+      console.error(err);
+      alert("세션 생성 실패");
     }
   };
 
-  const stopSession = () => setIsRunning(false);
-  const resetTimer = () => setSeconds(0);
+  const stopSession = () => {
+    setIsRunning(false);
+  };
+
+  const resetTimer = () => {
+    setSeconds(0);
+  };
 
   const minutes = Math.floor(seconds / 60);
   const secs = seconds % 60;
@@ -53,9 +61,17 @@ function Timer({ sessionId, setSessionId }) {
         Time: {minutes}:{secs.toString().padStart(2, "0")}
       </h2>
 
-      <button onClick={startSession} disabled={isRunning}>Start</button>
-      <button onClick={stopSession}>Stop</button>
-      <button onClick={resetTimer}>Reset</button>
+      <button onClick={startSession} disabled={isRunning}>
+        Start
+      </button>
+
+      <button onClick={stopSession}>
+        Stop
+      </button>
+
+      <button onClick={resetTimer}>
+        Reset
+      </button>
     </div>
   );
 }
