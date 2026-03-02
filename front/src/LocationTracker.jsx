@@ -10,7 +10,7 @@ function LocationTracker({ sessionId, isRunning }) {
           navigator.geolocation.getCurrentPosition(resolve, reject);
         });
 
-        await fetch("http://localhost:8080/api/running/location", {
+        const res = await fetch("http://localhost:8080/api/running/location", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -21,16 +21,20 @@ function LocationTracker({ sessionId, isRunning }) {
           }),
         });
 
-        console.log("Location saved");
+        if (!res.ok) throw new Error("Location save failed");
+
+        console.log("✅ Location saved");
+
       } catch (err) {
         console.error("Location send failed:", err);
       }
     }, 5000);
 
     return () => clearInterval(interval);
+
   }, [isRunning, sessionId]);
 
-  return null; // UI는 필요 없으므로 null 반환
+  return null;
 }
 
 export default LocationTracker;
