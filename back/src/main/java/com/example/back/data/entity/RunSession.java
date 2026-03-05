@@ -17,6 +17,25 @@ public class RunSession {
     private Instant startTime;
     private Instant endTime;
 
+    private double totalDistance;
+    private double averagePace;
+
+    public double getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public double getAveragePace() {
+        return averagePace;
+    }
+
+    public void setAveragePace(double averagePace) {
+        this.averagePace = averagePace;
+    }
+
 
     public Instant getEndTime() {
         return endTime;
