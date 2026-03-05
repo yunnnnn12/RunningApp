@@ -52,7 +52,7 @@ public class RunningServiceImpl implements RunningService {
                 + dto.getLongitude());
     }
 
-    private double caculateDistance(double lat1, double lon1,
+    private double calculateDistance(double lat1, double lon1,
                                     double lat2, double lon2){
         double R = 6371000; // meter
 
