@@ -24,4 +24,9 @@ public class RunningController {
     public void saveLocation(@RequestBody LocationRequestDto dto){
         runningService.saveLocation(dto);
     }
+
+    @PostMapping("/end") // 완주하면 완주 세션을 세팅한다.
+    public RunSession endSession(@RequestBody Long sessionId){
+        return runningService.endSession(sessionId);
+    }
 }
