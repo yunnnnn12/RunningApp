@@ -111,4 +111,9 @@ public class RunningServiceImpl implements RunningService {
 
         return sessionRepository.save(session); // 새로운 세션 기록
     }
+
+    public RunSession getSession(Long sessionId) {
+        return sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new RuntimeException("Session not found"));
+    }
 }
