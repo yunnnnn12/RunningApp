@@ -18,8 +18,8 @@ public class RunningController {
     }
 
     @GetMapping("/session/{id}")
-    public RunSession getSession(@PathVariable Long id){
-        return runningService.getSession(id); // 새로 만든 메소드
+    public RunSession getSession(@PathVariable("id") Long id){
+        return runningService.getSession(id);
     }
 
     @PostMapping("/location")
