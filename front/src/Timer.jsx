@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 function Timer({ sessionId, setSessionId }) {
   const [seconds, setSeconds] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
   const [isEnded, setIsEnded] = useState(false); // 세션 종료 상태
 
   useEffect(() => {
@@ -79,6 +78,7 @@ function Timer({ sessionId, setSessionId }) {
     setSeconds(0);
     setIsRunning(false);
     setIsEnded(false);
+    setSessionId(null);
   };
 
   const minutes = Math.floor(seconds / 60);
