@@ -39,17 +39,42 @@ public class RunningServiceImpl implements RunningService {
         RunSession session = sessionRepository.findById(dto.getSessionId())
                 .orElseThrow(() -> new RuntimeException("Session not found"));
 
-        RunLocation location = new RunLocation();
-        location.setLatitude(dto.getLatitude());
-        location.setLongitude(dto.getLongitude());
-        location.setTimeStamp(dto.getTimeStamp());
-        location.setSession(session);
+        // 🔥 마지막 위치 가져오기
+        RunLocation lastLocation =
+                locationRepository.findTopBySessionOrderByTimeStampDesc(session);
 
-        locationRepository.save(location);
+        RunLocation newLocation = new RunLocation(
+                dto.getLatitude(),
+                dto.getLongitude(),
+                dto.getTimeStamp()
+        );
+        newLocation.setSession(session);
 
-        System.out.println("Location saved: "
-                + dto.getLatitude() + ", "
-                + dto.getLongitude());
+        locationRepository.save(newLocation);
+
+        // 🔥 거리 계산
+        if (lastLocation != null) {
+            double distance = calculateDistance(
+                    lastLocation.getLatitude(),
+                    lastLocation.getLongitude(),
+                    dto.getLatitude(),
+                    dto.getLongitude()
+            );
+
+            session.setTotalDistance(session.getTotalDistance() + distance);
+
+            long elapsedSeconds =
+                    dto.getTimeStamp().getEpochSecond()
+                            - session.getStartTime().getEpochSecond();
+
+            if (session.getTotalDistance() > 0) {
+                double km = session.getTotalDistance() / 1000.0;
+                double pace = elapsedSeconds / km; // sec per km
+                session.setAveragePace(pace);
+            }
+
+            sessionRepository.save(session);
+        }
     }
 
     private double calculateDistance(double lat1, double lon1,
