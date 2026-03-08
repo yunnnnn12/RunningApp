@@ -53,8 +53,12 @@ function Timer({ sessionId, setSessionId }) {
     if (!sessionId) return;
 
     try {
-      await fetch(`http://localhost:8080/api/running/end/${sessionId}`, {
-        method: "POST"
+      await fetch("http://localhost:8080/api/running/end", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sessionId)
       });
 
       setStatus("ended");
