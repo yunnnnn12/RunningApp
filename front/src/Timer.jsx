@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 function Timer({ sessionId, setSessionId }) {
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [isEnded, setIsEnded] = useState(false); // 세션 종료 상태
 
-  // 타이머 증가
   useEffect(() => {
     if (!isRunning) return;
 
@@ -17,7 +17,6 @@ function Timer({ sessionId, setSessionId }) {
 
   const toggleStartPause = async () => {
     if (isRunning) {
-      // 일시정지
       setIsRunning(false);
       return;
     }
@@ -45,6 +44,7 @@ function Timer({ sessionId, setSessionId }) {
         setSessionId(data.id);
         setSeconds(0);
         setIsRunning(true);
+        setIsEnded(false);
 
       } catch (err) {
         console.error(err);
@@ -56,9 +56,29 @@ function Timer({ sessionId, setSessionId }) {
     }
   };
 
+  const endSession = async () => {
+    if (!sessionId) return;
+    setIsRunning(false);
+    setIsEnded(true);
+
+    try {
+      const res = await fetch(`http://localhost:8080/api/running/end/${sessionId}`, {
+        method: "POST",
+      });
+      if (!res.ok) throw new Error("End session failed");
+
+      const data = await res.json();
+      alert(`완주 페이스: ${data.pace} min/km`);
+    } catch (err) {
+      console.error(err);
+      alert("세션 종료 실패");
+    }
+  };
+
   const resetTimer = () => {
     setSeconds(0);
     setIsRunning(false);
+    setIsEnded(false);
   };
 
   const minutes = Math.floor(seconds / 60);
@@ -68,8 +88,12 @@ function Timer({ sessionId, setSessionId }) {
     <div style={{ marginTop: "20px" }}>
       <h2>Time: {minutes}:{secs.toString().padStart(2, "0")}</h2>
 
-      <button onClick={toggleStartPause}>
+      <button onClick={toggleStartPause} disabled={isEnded}>
         {isRunning ? "Pause" : "Start"}
+      </button>
+
+      <button onClick={endSession} disabled={isEnded || !sessionId}>
+        End
       </button>
 
       <button onClick={resetTimer}>Reset</button>
