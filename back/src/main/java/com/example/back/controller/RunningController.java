@@ -24,6 +24,7 @@ public class RunningController {
 
     @PostMapping("/location")
     public void saveLocation(@RequestBody LocationRequestDto dto){
+        System.out.println("Location saved: " + dto.getLatitude() + ", " + dto.getLongitude());
         runningService.saveLocation(dto);
     }
 
