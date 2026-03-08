@@ -1,37 +1,30 @@
 import { useEffect } from "react";
 
-function LocationTracker({ sessionId, isRunning }) {
+function LocationTracker({ isRunning, sessionId }) {
   useEffect(() => {
     if (!isRunning || !sessionId) return;
 
-    const interval = setInterval(async () => {
-      try {
-        const position = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
+    const watchId = navigator.geolocation.watchPosition(async (pos) => {
+      const { latitude, longitude } = pos.coords;
 
-        const res = await fetch("http://localhost:8080/api/running/location", {
+      try {
+        await fetch("http://localhost:8080/api/running/location", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             sessionId,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            timeStamp: new Date().toISOString()
+            latitude,
+            longitude,
           }),
         });
-
-        if (!res.ok) throw new Error("Location save failed");
-
-        console.log("✅ Location saved");
-
       } catch (err) {
         console.error("Location send failed:", err);
       }
-    }, 5000);
+    });
 
-    return () => clearInterval(interval);
-
+    return () => navigator.geolocation.clearWatch(watchId);
   }, [isRunning, sessionId]);
 
   return null;
