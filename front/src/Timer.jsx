@@ -52,21 +52,27 @@ function Timer({ sessionId, setSessionId, isRunning, setIsRunning }) {
   };
 
   const end = async () => {
-    if (!sessionId) return;
+  if (!sessionId) return;
 
-    try {
-      await fetch("http://localhost:8080/api/running/end", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sessionId)
-      });
-      setStatus("ended");
-      setIsRunning(false);
-      console.log("🏁 Session ended");
-    } catch (err) {
-      console.error("Session end failed:", err);
-    }
-  };
+  try {
+    await fetch("http://localhost:8080/api/running/end", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sessionId)
+    });
+
+    console.log("🏁 Session ended");
+
+  } catch (err) {
+    console.error("Session end failed:", err);
+  }
+
+  // 상태 초기화
+  setStatus("idle");
+  setIsRunning(false);
+  setSeconds(0);
+  setSessionId(null);
+};
 
   const minutes = Math.floor(seconds / 60);
   const secs = seconds % 60;
