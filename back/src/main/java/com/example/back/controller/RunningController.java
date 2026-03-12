@@ -1,8 +1,10 @@
 package com.example.back.controller;
 
 import com.example.back.data.dto.LocationRequestDto;
+import com.example.back.data.entity.EndSessionRequest;
 import com.example.back.service.impl.RunningServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.back.data.entity.RunSession;
 
@@ -28,8 +30,9 @@ public class RunningController {
         runningService.saveLocation(dto);
     }
 
-    @PostMapping("/end") // 완주하면 완주 세션을 세팅한다.
-    public RunSession endSession(@RequestBody Long sessionId){
-        return runningService.endSession(sessionId);
+    @PostMapping("/end")
+    public ResponseEntity<?> endSession(@RequestBody EndSessionRequest request) {
+        runningService.endSession(request.getSessionId());
+        return ResponseEntity.ok().build();
     }
 }
