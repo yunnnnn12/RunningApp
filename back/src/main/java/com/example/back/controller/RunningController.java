@@ -1,5 +1,6 @@
 package com.example.back.controller;
 
+import com.example.back.data.dto.EndSessionRequestDto;
 import com.example.back.data.dto.LocationRequestDto;
 import com.example.back.data.entity.EndSessionRequest;
 import com.example.back.service.impl.RunningServiceImpl;
@@ -31,7 +32,7 @@ public class RunningController {
     }
 
     @PostMapping("/end")
-    public ResponseEntity<?> endSession(@RequestBody EndSessionRequest request) {
+    public ResponseEntity<?> endSession(@RequestBody EndSessionRequestDto request) {
         runningService.endSession(request.getSessionId());
         return ResponseEntity.ok().build();
     }
