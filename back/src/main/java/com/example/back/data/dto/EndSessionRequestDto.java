@@ -1,6 +1,6 @@
-package com.example.back.data.entity;
+package com.example.back.data.dto;
 
-public class EndSessionRequest {
+public class EndSessionRequestDto {
 
     private Long sessionId;
 
