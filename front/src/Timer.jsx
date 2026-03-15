@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-function Timer({ sessionId, setSessionId, isRunning, setIsRunning, setFinalDistance }) {
+function Timer({
+  sessionId,
+  setSessionId,
+  isRunning,
+  setIsRunning,
+  setFinalDistance,
+  setIsEnded
+}) {
 
   const [seconds, setSeconds] = useState(0);
   const [status, setStatus] = useState("idle");
@@ -33,6 +40,7 @@ function Timer({ sessionId, setSessionId, isRunning, setIsRunning, setFinalDista
       setSessionId(data.id);
       setStatus("running");
       setIsRunning(true);
+      setIsEnded(false);
 
     } catch (err) {
       console.error("Session start failed:", err);
@@ -64,14 +72,13 @@ function Timer({ sessionId, setSessionId, isRunning, setIsRunning, setFinalDista
 
       setFinalDistance(data.totalDistance);
 
-      console.log("🏁 Session ended");
-
     } catch (err) {
       console.error("Session end failed:", err);
     }
 
     setStatus("idle");
     setIsRunning(false);
+    setIsEnded(true);
   };
 
   const minutes = Math.floor(seconds / 60);
