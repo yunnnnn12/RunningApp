@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function DistanceDisplay({ sessionId, isEnded, finalDistance }) {
+function DistanceDisplay({ sessionId, isRunning, finalDistance, isEnded}) {
 
   const [currentDistance, setCurrentDistance] = useState(null);
 
