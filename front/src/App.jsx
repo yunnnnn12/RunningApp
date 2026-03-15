@@ -7,6 +7,7 @@ import DistanceDisplay from "./DistanceDisplay";
 function App() {
   const [sessionId, setSessionId] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
+  const [isEnded, setIsEnded] = useState(false);
   const [finalDistance, setFinalDistance] = useState(null);
 
   return (
@@ -19,6 +20,7 @@ function App() {
         isRunning={isRunning}
         setIsRunning={setIsRunning}
         setFinalDistance={setFinalDistance}
+        setIsEnded={setIsEnded}
       />
 
       <LocationTracker sessionId={sessionId} isRunning={isRunning} />
@@ -27,9 +29,14 @@ function App() {
         sessionId={sessionId}
         isRunning={isRunning}
         finalDistance={finalDistance}
+        isEnded={isEnded}
       />
 
-      <PaceDisplay sessionId={sessionId} isRunning={isRunning} />
+      <PaceDisplay
+        sessionId={sessionId}
+        isRunning={isRunning}
+        isEnded={isEnded}
+      />
     </div>
   );
 }
