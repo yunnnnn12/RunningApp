@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { formatPace } from "./paceUtils";
 
-function PaceDisplay({ sessionId, isRunning }) {
+function PaceDisplay({ sessionId, isRunning, isEnded }) {
+
   const [currentPace, setCurrentPace] = useState(null);
   const [finalPace, setFinalPace] = useState(null);
 
@@ -10,13 +11,14 @@ function PaceDisplay({ sessionId, isRunning }) {
 
     const interval = setInterval(async () => {
       try {
-        // 실시간 세션 정보 가져오기
         const res = await fetch(`http://localhost:8080/api/running/session/${sessionId}`);
-        if (!res.ok) throw new Error("Failed to fetch session info");
-
         const data = await res.json();
-        setCurrentPace(data.averagePace); // sec/km
-        if (!isRunning && data.endTime) {
+
+        if (isRunning) {
+          setCurrentPace(data.averagePace);
+        }
+
+        if (isEnded) {
           setFinalPace(data.averagePace);
         }
 
@@ -26,12 +28,20 @@ function PaceDisplay({ sessionId, isRunning }) {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [sessionId, isRunning]);
+
+  }, [sessionId, isRunning, isEnded]);
 
   return (
     <div style={{ marginTop: "20px" }}>
-      <h2>실시간 페이스: {formatPace(currentPace)}</h2>
-      {!isRunning && finalPace && <h2>완주 페이스: {formatPace(finalPace)}</h2>}
+
+      {isRunning && (
+        <h2>실시간 페이스: {formatPace(currentPace)}</h2>
+      )}
+
+      {isEnded && finalPace && (
+        <h2>완주 페이스: {formatPace(finalPace)}</h2>
+      )}
+
     </div>
   );
 }
