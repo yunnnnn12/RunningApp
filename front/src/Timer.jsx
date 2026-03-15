@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-function Timer({ sessionId, setSessionId, isRunning, setIsRunning, setFinalDistance }) {
+function Timer({
+  sessionId,
+  setSessionId,
+  isRunning,
+  setIsRunning,
+  setFinalDistance,
+  setIsEnded
+}) {
 
   const [seconds, setSeconds] = useState(0);
   const [status, setStatus] = useState("idle");
@@ -13,6 +20,12 @@ function Timer({ sessionId, setSessionId, isRunning, setIsRunning, setFinalDista
   }, [status]);
 
   const start = async () => {
+
+    // ⭐ start 다시 누르면 초기화
+    setFinalDistance(null);
+    setSeconds(0);
+    setIsEnded(false);
+
     try {
       const position = await new Promise((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject)
@@ -72,6 +85,7 @@ function Timer({ sessionId, setSessionId, isRunning, setIsRunning, setFinalDista
 
     setStatus("idle");
     setIsRunning(false);
+    setIsEnded(true);
   };
 
   const minutes = Math.floor(seconds / 60);
@@ -79,7 +93,7 @@ function Timer({ sessionId, setSessionId, isRunning, setIsRunning, setFinalDista
 
   return (
     <div>
-      <h2>Time: {minutes}:{secs.toString().padStart(2,"0")}</h2>
+      <h2>Time: {minutes}:{secs.toString().padStart(2, "0")}</h2>
 
       {status === "idle" && <button onClick={start}>Start</button>}
       {status === "running" && <button onClick={pause}>Pause</button>}
