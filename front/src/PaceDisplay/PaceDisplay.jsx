@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { formatPace } from "./paceUtils";
 
-function PaceDisplay({ sessionId, isRunning }) {
+function PaceDisplay({ sessionId, isRunning, isEnded }) {
   const [currentPace, setCurrentPace] = useState(null);
   const [finalPace, setFinalPace] = useState(null);
 
