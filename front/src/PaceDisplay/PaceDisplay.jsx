@@ -30,10 +30,17 @@ function PaceDisplay({ sessionId, isRunning }) {
 
   return (
     <div style={{ marginTop: "20px" }}>
-      <h2>실시간 페이스: {formatPace(currentPace)}</h2>
-      {!isRunning && finalPace && <h2>완주 페이스: {formatPace(finalPace)}</h2>}
+
+      {!isEnded && (
+        <h2>실시간 페이스: {formatPace(currentPace)}</h2>
+      )}
+
+      {isEnded && finalPace && (
+        <h2>완주 페이스: {formatPace(finalPace)}</h2>
+      )}
+
     </div>
-  );
+);
 }
 
 export default PaceDisplay;
