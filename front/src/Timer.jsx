@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-function Timer({ sessionId, setSessionId, isRunning, setIsRunning }) {
+function Timer({ sessionId, setSessionId, isRunning, setIsRunning, setFinalDistance }) {
+
   const [seconds, setSeconds] = useState(0);
-  const [status, setStatus] = useState("idle"); // idle | running | paused | ended
+  const [status, setStatus] = useState("idle");
 
   React.useEffect(() => {
     if (status !== "running") return;
@@ -28,11 +29,10 @@ function Timer({ sessionId, setSessionId, isRunning, setIsRunning }) {
       });
 
       const data = await res.json();
+
       setSessionId(data.id);
       setStatus("running");
       setIsRunning(true);
-
-      console.log("✅ Session started, id:", data.id);
 
     } catch (err) {
       console.error("Session start failed:", err);
@@ -42,37 +42,37 @@ function Timer({ sessionId, setSessionId, isRunning, setIsRunning }) {
   const pause = () => {
     setStatus("paused");
     setIsRunning(false);
-    console.log("⏸ Paused");
   };
 
   const resume = () => {
     setStatus("running");
     setIsRunning(true);
-    console.log("▶ Resumed");
   };
 
   const end = async () => {
-  if (!sessionId) return;
+    if (!sessionId) return;
 
-  try {
-    await fetch("http://localhost:8080/api/running/end", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId })
-    });
+    try {
+      await fetch("http://localhost:8080/api/running/end", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId })
+      });
 
-    console.log("🏁 Session ended");
+      const res = await fetch(`http://localhost:8080/api/running/session/${sessionId}`);
+      const data = await res.json();
 
-  } catch (err) {
-    console.error("Session end failed:", err);
-  }
+      setFinalDistance(data.totalDistance);
 
-  // 상태 초기화
-  setStatus("idle");
-  setIsRunning(false);
-  setSeconds(0);
-  setSessionId(null);
-};
+      console.log("🏁 Session ended");
+
+    } catch (err) {
+      console.error("Session end failed:", err);
+    }
+
+    setStatus("idle");
+    setIsRunning(false);
+  };
 
   const minutes = Math.floor(seconds / 60);
   const secs = seconds % 60;
