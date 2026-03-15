@@ -2,7 +2,6 @@ package com.example.back.controller;
 
 import com.example.back.data.dto.EndSessionRequestDto;
 import com.example.back.data.dto.LocationRequestDto;
-import com.example.back.data.entity.EndSessionRequest;
 import com.example.back.service.impl.RunningServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
