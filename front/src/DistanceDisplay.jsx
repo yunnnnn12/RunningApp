@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-function DistanceDisplay({ sessionId, isRunning, finalDistance, isEnded}) {
-
+function DistanceDisplay({ sessionId, isEnded, finalDistance }) {
   const [currentDistance, setCurrentDistance] = useState(null);
 
   useEffect(() => {
-    if (!sessionId) return;
+    if (!sessionId || isEnded) return;
 
     const fetchDistance = async () => {
       try {
@@ -18,24 +17,17 @@ function DistanceDisplay({ sessionId, isRunning, finalDistance, isEnded}) {
     };
 
     fetchDistance();
-
     const interval = setInterval(fetchDistance, 5000);
-
     return () => clearInterval(interval);
-
-  }, [sessionId]);
+  }, [sessionId, isEnded]);
 
   return (
     <div style={{ marginTop: "20px" }}>
-
-      {!isEnded && currentDistance !== null && (
-        <h2>현재 거리: {(currentDistance / 1000).toFixed(2)} km</h2>
+      {!isEnded ? (
+        <h2>현재 거리: {currentDistance !== null ? (currentDistance / 1000).toFixed(2) : "0.00"} km</h2>
+      ) : (
+        <h2 style={{ color: "#007bff" }}>최종 거리: {finalDistance !== null ? (finalDistance / 1000).toFixed(2) : "0.00"} km</h2>
       )}
-
-      {isEnded && finalDistance !== null && (
-        <h2>최종 거리: {(finalDistance / 1000).toFixed(2)} km</h2>
-      )}
-
     </div>
   );
 }
