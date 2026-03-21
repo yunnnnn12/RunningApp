@@ -1,46 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { formatPace } from "./paceUtils";
 
-function PaceDisplay({ sessionId, isRunning, isEnded }) {
+export function formatPace(secPerKm) {
+  if (!secPerKm || secPerKm === Infinity || secPerKm <= 0) return "--:--";
+  const minutes = Math.floor(secPerKm / 60);
+  const seconds = Math.round(secPerKm % 60);
+  return `${minutes}:${seconds.toString().padStart(2, "0")} min/km`;
+}
+
+function PaceDisplay({ sessionId, isEnded, finalPace }) {
   const [currentPace, setCurrentPace] = useState(null);
-  const [finalPace, setFinalPace] = useState(null);
 
   useEffect(() => {
-    if (!sessionId) return;
+    if (!sessionId || isEnded) return;
 
-    const interval = setInterval(async () => {
+    const fetchPace = async () => {
       try {
-        // 실시간 세션 정보 가져오기
         const res = await fetch(`http://localhost:8080/api/running/session/${sessionId}`);
-        if (!res.ok) throw new Error("Failed to fetch session info");
-
         const data = await res.json();
-        setCurrentPace(data.averagePace); // sec/km
-        if (!isRunning && data.endTime) {
-          setFinalPace(data.averagePace);
-        }
-
+        setCurrentPace(data.averagePace);
       } catch (err) {
         console.error("Pace fetch failed:", err);
       }
-    }, 5000);
+    };
 
+    fetchPace();
+    const interval = setInterval(fetchPace, 5000);
     return () => clearInterval(interval);
-  }, [sessionId, isRunning]);
+  }, [sessionId, isEnded]);
 
   return (
-    <div style={{ marginTop: "20px" }}>
-
-      {!isEnded && (
-        <h2>실시간 페이스: {formatPace(currentPace)}</h2>
+    <div style={{ marginTop: "10px" }}>
+      {!isEnded ? (
+        <h2>실시간 페이스: {currentPace !== null ? formatPace(currentPace) : "--:--"}</h2>
+      ) : (
+        <h2 style={{ color: "#007bff" }}>완주 페이스: {finalPace !== null ? formatPace(finalPace) : "--:--"}</h2>
       )}
-
-      {isEnded && finalPace && (
-        <h2>완주 페이스: {formatPace(finalPace)}</h2>
-      )}
-
     </div>
-);
+  );
 }
 
 export default PaceDisplay;
