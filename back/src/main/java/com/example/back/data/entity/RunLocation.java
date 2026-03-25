@@ -11,6 +11,14 @@ public class RunLocation {
     private Long id;
 
     private double latitude;
+
+    public RunLocation(double latitude, double longitude, Instant timeStamp, RunSession session) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.timeStamp = timeStamp;
+        this.session = session;
+    }
+
     private double longitude;
     private Instant timeStamp;
 
