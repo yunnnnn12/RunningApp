@@ -21,5 +21,5 @@ export default function () {
   };
 
   http.post(url, payload, params);
-  sleep(0.1); // 0.1초마다 요청 (초당 10번 정도)
+  sleep(5); // 5초마다 요청
 }
