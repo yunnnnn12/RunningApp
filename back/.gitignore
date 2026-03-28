@@ -22,3 +22,11 @@ Thumbs.db
 
 # Spring Boot DevTools
 restart.log
+
+
+application.yml
+application.properties
+application-*.yml
+application-*.properties
+*.env
+.env.*
