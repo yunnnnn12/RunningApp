@@ -1,32 +1,43 @@
-# Gradle
-.gradle/
-build/
-!gradle/wrapper/gradle-wrapper.jar
+# --- Project Specific (Spring / Gradle) ---
+ .gradle/
+ build/
+ !gradle/wrapper/gradle-wrapper.jar
+ out/
+ bin/
 
-# IntelliJ
-.idea/
-*.iml
-out/
+ # --- Database & Infrastructure (MySQL, Redis, Kafka) ---
+ *.sql
+ *.dump
+ /data/             # Docker 볼륨이나 로컬 데이터 저장소
+ /logs/             # Kafka/Redis 로그 디렉토리
+ *.log              # 모든 로그 파일 (기존 유지)
 
-# Logs
-*.log
+ # --- Monitoring & Load Test (K6, Grafana) ---
+ node_modules/      # K6 script 관련 의존성
+ /results/          # K6 실행 결과 리포트
+ /reports/          # Grafana 대시보드 내보내기 파일 등
+ .grafana/          # 로컬 그라파나 설정 데이터
 
-# OS
-.DS_Store
-Thumbs.db
+ # --- IntelliJ / IDE ---
+ .idea/
+ *.iml
+ *.iws
 
-# Temporary / swap files
-*.tmp
-*.swp
-*.bak
+ # --- Secrets (보안 - 기존 설정 강화) ---
+ application.yml
+ application.properties
+ application-*.yml
+ application-*.properties
+ *.env
+ .env.*
+ secrets/           # 별도 보안 폴더를 쓴다면 추가
 
-# Spring Boot DevTools
-restart.log
+ # --- OS & Temp ---
+ .DS_Store
+ Thumbs.db
+ *.tmp
+ *.swp
+ *.bak
 
-
-application.yml
-application.properties
-application-*.yml
-application-*.properties
-*.env
-.env.*
+ # --- Spring Boot DevTools ---
+ restart.log
