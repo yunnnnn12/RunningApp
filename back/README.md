@@ -1,3 +1,26 @@
+# 실시간 러닝 데이터 처리 및 성능 개선 시스템
+
+## Tech Stack
+- Engine: Spring Boot 4.0.1, Java 21
+- Message Broker: Apache Kafka
+- Cache/Storage: Redis, MySQL
+- Monitoring: Prometheus, Grafana
+- Load Test: k6
+
+## Branch 가이드
+- [Main]
+  - MVP(페이스, 계산 거리) + Prometheus & Grafana 기본 모니터링 환경 구축
+- [feature/kafka-redis-integration]
+  - 기존 RDB 구조 성능 개선
+  - p95 Latency 1,000배 개선 (30s → 30ms)
+  - Kafka + Redis 도입을 통한 쓰기 부하 분산 및 캐싱 레이어 구축
+
+
+## 성능 개선 결과
+- Latency: Kafka + Redis 도입 후 약 1,000배 개선
+- Throughput : 100 VU 무장애 처리 (k6)
+
+
 # mvp 구조
 - service
 - repository
