@@ -14,6 +14,7 @@
   - 기존 RDB 구조 성능 개선
   - p95 Latency 1,000배 개선 (30s → 30ms)
   - Kafka + Redis 도입을 통한 쓰기 부하 분산 및 캐싱 레이어 구축
+  - [해당 브랜치 이동](https://github.com/yunnnnn12/RunningApp/tree/feature/kafka-redis-integration/back)
 
 
 ## 성능 개선 결과
