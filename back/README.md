@@ -59,7 +59,7 @@ RunLocation
 ```java
 // 클라이언트 → 서버 위치 전송
 LocationRequestDto {
-    String sessionId;
+    Long sessionId;
     Double latitude;
     Double longitude;
     LocalDateTime timeStamp;
@@ -67,7 +67,7 @@ LocationRequestDto {
  
 // 러닝 종료 요청
 EndSessionRequestDto {
-    String sessionId;
+    Long sessionId;
 }
 ```
 
