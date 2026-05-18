@@ -16,7 +16,7 @@
 | Throughput | 2.55 req/s | **약 20 QPS** |
 | 데이터 유실 | - | **0건** |
 
-## [![성능 결과 보기](https://img.shields.io/badge/📊%20Redis+Kafka%20성능결과-보기-blueviolet)](https://github.com/user-attachments/assets/d7c5dfdb-dc37-4e51-9832-f66913bc9318)
+## [![성능 결과 보기](https://img.shields.io/badge/📊%20Redis+Kafka%20성능결과-보기-blueviolet?style=for-the-badge)](https://github.com/user-attachments/assets/d7c5dfdb-dc37-4e51-9832-f66913bc9318)
 <br>
 
 ## 🏗 아키텍처
@@ -87,7 +87,7 @@ Consumer                     Kafka에서 꺼내 거리·페이스 계산
 
 ### Redis + Kafka 도입 후 — VU 100
 
-## [![성능 결과 보기](https://img.shields.io/badge/📊%20Redis+Kafka%20성능결과-보기-blueviolet)](https://github.com/user-attachments/assets/d7c5dfdb-dc37-4e51-9832-f66913bc9318)
+## [![성능 결과 보기](https://img.shields.io/badge/📊%20Redis+Kafka%20성능결과-보기-blueviolet?style=for-the-badge)](https://github.com/user-attachments/assets/d7c5dfdb-dc37-4e51-9832-f66913bc9318)
 - p95 **30.05s → 30.44ms** (약 1,000배 개선)
 - 6,000건 요청 처리, 에러율 **0%**
 - 초당 약 **20 QPS** 안정적 처리
