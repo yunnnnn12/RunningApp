@@ -2,7 +2,7 @@
 
 > Spring Boot 기반 백엔드 상세 문서입니다.  
 > 프로젝트 전체 소개 및 성능 개선 내용은 [루트 README](../README.md)를 참고해주세요.
-
+<br>
 
 ## 🛠 Tech Stack
 
@@ -16,6 +16,7 @@
 | Infra | Docker, AWS |
 | Monitoring | Prometheus, Grafana |
 | Load Test | k6 |
+<br>
 
 
 
@@ -34,6 +35,7 @@
 - **거리 계산** : 위도·경도 기반 Haversine 공식으로 실제 이동 거리 계산
 - **페이스 계산** : 위치 저장마다 누적 거리 + 경과 시간으로 실시간 평균 페이스 산출
 - **타이머** : 러닝 시간 실시간 제공
+<br>
 
 ## 🗂 MVC 구조
 
@@ -86,6 +88,8 @@ LocationRepository  — 위치 저장
 SessionRepository   — 세션 저장
 ```
 
+<br>
+
 
 ## 🔧 문제 해결 — RDB → Redis + Kafka
 
@@ -106,7 +110,7 @@ SessionRepository   — 세션 저장
 | Disk I/O 병목 | Redis에 직전 좌표 캐싱 → DB 접근 제거 |
 | 데이터 순서 역전 | Kafka sessionId 기반 파티셔닝 → 동일 유저 데이터 순차 처리 |
 | DB 자원 고갈 | Kafka Back-pressure 구조 → DB 처리량에 맞춰 소비 |
-
+<br>
 
 ## 🐛 트러블슈팅
 
@@ -121,7 +125,7 @@ SessionRepository   — 세션 저장
   **결과** : 대시보드 수치와 k6 실측치 일치 → 모니터링 신뢰도 확보
 
 **학습** : 누적 지표(Cumulative)의 특성과 시간 범위 설정이 데이터 정확도에 영향 — 원리를 이해하고 구성 요소부터 분석하는 엔지니어링 사고의 중요성 체감
-
+<br>
 
 ## 🔮 추후 성능 확장 계획
 
