@@ -21,9 +21,8 @@
 
 ## 🏗 아키텍처
  
-<img src="[https://github.com/user-attachments/assets/0408257f-6bae-40ff-908e-125747b8e332](https://github.com/user-attachments/assets/0408257f-6bae-40ff-908e-125747b8e332)" width="700" alt="아키텍처 구조">
-
-```text
+![아키텍처 구조](https://github.com/user-attachments/assets/0408257f-6bae-40ff-908e-125747b8e332)
+```
 Client (GPS + sessionId)
     │  POST /api/running/location
     ▼
@@ -36,6 +35,7 @@ Kafka                        sessionId 기준 파티셔닝 → 순서 보장
 Consumer                     Kafka에서 꺼내 거리·페이스 계산
     ├──▶ Redis               직전 좌표 캐싱 (Disk I/O 제거)
     └──▶ DB (MySQL)          최종 세션 상태 저장
+```
 
 <br>
 ## 🛠 Tech Stack
